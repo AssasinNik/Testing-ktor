@@ -20,5 +20,6 @@ class RegisterController {
         InMemoryCache.token.add(TokenCache(login = receive.login, token=  token))
 
         call.respond(RegisterResponseRemote(token=token))
+        /**/
     }
 }
