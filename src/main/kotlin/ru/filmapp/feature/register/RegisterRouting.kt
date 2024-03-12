@@ -13,12 +13,8 @@ import java.util.UUID
 fun Application.configureRegisterRouting() {
     routing {
         post("/register") {
-            val receive = call.receive<RegisterReceiveRemote>()
-
-            if(!receive.email.isValidEqual()){
-                call.respond(HttpStatusCode.BadRequest, "Email isn't valid")
-            }
-
+            val registerController=RegisterController(call)
+            registerController.registerNewUser()
 
         }
     }
