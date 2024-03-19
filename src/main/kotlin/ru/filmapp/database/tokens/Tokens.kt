@@ -4,10 +4,10 @@ import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
 
-object Tokens : Table("users"){
-    private val login=Tokens.varchar("login", 25)
-    private val id=Tokens.varchar("id", 25)
-    private val token =Tokens.varchar("id", 50)
+object Tokens : Table("tokens"){
+    private val login=Tokens.varchar("login", 55)
+    private val id=Tokens.varchar("id", 55)
+    private val token =Tokens.varchar("token", 55)
 
     fun insert(tokenDTO: TokenDTO){
         transaction{

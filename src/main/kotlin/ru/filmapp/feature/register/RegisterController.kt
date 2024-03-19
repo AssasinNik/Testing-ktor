@@ -4,6 +4,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
+import org.jetbrains.exposed.exceptions.ExposedSQLException
 import ru.filmapp.database.tokens.TokenDTO
 import ru.filmapp.database.tokens.Tokens
 import ru.filmapp.database.users.UserDTO
@@ -24,14 +25,21 @@ class RegisterController (private val call: ApplicationCall){
         }
         else{
             val token=UUID.randomUUID().toString()
-            Users.insert(
-                UserDTO(
-                    login=registerReceiveRemote.login,
-                    password = registerReceiveRemote.password,
-                    email=registerReceiveRemote.email,
-                    username=""
+
+            try{
+                Users.insert(
+                    UserDTO(
+                        login=registerReceiveRemote.login,
+                        password = registerReceiveRemote.password,
+                        email=registerReceiveRemote.email,
+                        username=""
+                    )
                 )
-            )
+            }catch(e: ExposedSQLException){
+                call.respond(HttpStatusCode.Conflict, "User is already exist")
+            }
+
+
             Tokens.insert(
                 TokenDTO(
                     id=UUID.randomUUID().toString(),
